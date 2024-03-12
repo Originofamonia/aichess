@@ -72,7 +72,7 @@ class Net(nn.Module):
         policy = self.policy_act(policy)
         policy = torch.reshape(policy, [-1, 16 * 10 * 9])
         policy = self.policy_fc(policy)
-        policy = F.log_softmax(policy)
+        policy = F.log_softmax(policy, -1)
         # 价值头
         value = self.value_conv(x)
         value = self.value_bn(value)
@@ -81,15 +81,14 @@ class Net(nn.Module):
         value = self.value_fc1(value)
         value = self.value_act1(value)
         value = self.value_fc2(value)
-        value = F.tanh(value)
+        value = torch.tanh(value)
 
         return policy, value
 
 
 # 策略值网络，用来进行模型的训练
 class PolicyValueNet:
-
-    def __init__(self, model_file=None, use_gpu=True, device = 'cuda'):
+    def __init__(self, model_file=None, use_gpu=True, device='cuda'):
         self.use_gpu = use_gpu
         self.l2_const = 2e-3    # l2 正则化
         self.device = device

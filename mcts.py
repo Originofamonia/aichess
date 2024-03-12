@@ -15,8 +15,8 @@ def softmax(x):
 # 定义叶子节点
 class TreeNode(object):
     """
-    mcts树中的节点，树的子节点字典中，键为动作，值为TreeNode。记录当前节点选择的动作，以及选择该动作后会跳转到的下一个子节点。
-    每个节点跟踪其自身的Q，先验概率P及其访问次数调整的u
+    mcts树中的节点, 树的子节点字典中, 键为动作, 值为TreeNode。记录当前节点选择的动作, 以及选择该动作后会跳转到的下一个子节点。
+    每个节点跟踪其自身的Q, 先验概率P及其访问次数调整的u
     """
 
     def __init__(self, parent, prior_p):
@@ -47,8 +47,8 @@ class TreeNode(object):
 
     def get_value(self, c_puct):
         """
-        计算并返回此节点的值，它是节点评估Q和此节点的先验的组合
-        c_puct: 控制相对影响（0， inf）
+        计算并返回此节点的值, 它是节点评估Q和此节点的先验的组合
+        c_puct: 控制相对影响(0, inf)
         """
         self._u = (c_puct * self._P *
                    np.sqrt(self._parent._n_visits) / (1 + self._n_visits))
@@ -84,7 +84,7 @@ class TreeNode(object):
 class MCTS(object):
 
     def __init__(self, policy_value_fn, c_puct=5, n_playout=2000):
-        """policy_value_fn: 接收board的盘面状态，返回落子概率和盘面评估得分"""
+        """policy_value_fn: 接收board的盘面状态, 返回落子概率和盘面评估得分"""
         self._root = TreeNode(None, 1.0)
         self._policy = policy_value_fn
         self._c_puct = c_puct
@@ -93,7 +93,7 @@ class MCTS(object):
     def _playout(self, state):
         """
         进行一次搜索，根据叶节点的评估值进行反向更新树节点的参数
-        注意：state已就地修改，因此必须提供副本
+        注意:state已就地修改, 因此必须提供副本
         """
         node = self._root
         while True:
@@ -125,7 +125,7 @@ class MCTS(object):
         """
         按顺序运行所有搜索并返回可用的动作及其相应的概率
         state:当前游戏的状态
-        temp:介于（0， 1]之间的温度参数
+        temp:介于(0, 1]之间的温度参数
         """
         for n in range(self._n_playout):
             state_copy = copy.deepcopy(state)

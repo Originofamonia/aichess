@@ -1,9 +1,6 @@
 """使用收集到数据进行训练"""
-
-
 import random
 from collections import defaultdict, deque
-
 import numpy as np
 import pickle
 import time
@@ -23,7 +20,7 @@ if CONFIG['use_frame'] == 'paddle':
 elif CONFIG['use_frame'] == 'pytorch':
     from pytorch_net import PolicyValueNet
 else:
-    print('暂不支持您选择的框架')
+    print('Unsupported framework')
 
 
 # 定义整个训练流程
@@ -52,13 +49,13 @@ class TrainPipeline:
         if init_model:
             try:
                 self.policy_value_net = PolicyValueNet(model_file=init_model)
-                print('已加载上次最终模型')
+                print('Loaded last model')
             except:
                 # 从零开始训练
-                print('模型路径不存在，从零开始训练')
+                print('model path does not exist, train from scratch')
                 self.policy_value_net = PolicyValueNet()
         else:
-            print('从零开始训练')
+            print('Train from scratch')
             self.policy_value_net = PolicyValueNet()
 
 
@@ -158,7 +155,7 @@ class TrainPipeline:
                                 self.data_buffer = data_file['data_buffer']
                                 self.iters = data_file['iters']
                                 del data_file
-                            print('已载入数据')
+                            print('Loaded data')
                             break
                         except:
                             time.sleep(30)
@@ -184,7 +181,7 @@ class TrainPipeline:
                     elif CONFIG['use_frame'] == 'pytorch':
                         self.policy_value_net.save_model(CONFIG['pytorch_model_path'])
                     else:
-                        print('不支持所选框架')
+                        print('Unsupported framework')
 
                 time.sleep(CONFIG['train_update_interval'])  # 每10分钟更新一次模型
 
@@ -214,5 +211,5 @@ elif CONFIG['use_frame'] == 'pytorch':
     training_pipeline = TrainPipeline(init_model='current_policy.pkl')
     training_pipeline.run()
 else:
-    print('暂不支持您选择的框架')
-    print('训练结束')
+    print('Unsupported framework')
+    print('Training ends')

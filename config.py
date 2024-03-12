@@ -5,8 +5,8 @@ CONFIG = {
     'c_puct': 5,             # u的权重
     'buffer_size': 100000,   # 经验池大小
     'paddle_model_path': 'current_policy.model',      # paddle模型路径
-    'pytorch_model_path': 'current_policy.pkl',   # pytorch模型路径
-    'train_data_buffer_path': 'train_data_buffer.pkl',   # 数据容器的路径
+    'pytorch_model_path': 'models/current_policy.pkl',   # pytorch模型路径
+    'train_data_buffer_path': 'output/train_data_buffer.pkl',   # 数据容器的路径
     'batch_size': 512,  # 每次更新的train_step数量
     'kl_targ': 0.02,  # kl散度控制
     'epochs' : 5,  # 每次更新的train_step数量

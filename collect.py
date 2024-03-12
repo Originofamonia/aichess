@@ -1,5 +1,5 @@
 """自我对弈收集数据"""
-import random
+# import random
 from collections import deque
 import copy
 import os
@@ -19,12 +19,11 @@ if CONFIG['use_frame'] == 'paddle':
 elif CONFIG['use_frame'] == 'pytorch':
     from pytorch_net import PolicyValueNet
 else:
-    print('暂不支持您选择的框架')
+    print('Unsupported framework')
 
 
 # 定义整个对弈收集数据流程
 class CollectPipeline:
-
     def __init__(self, init_model=None):
         # 象棋逻辑和棋盘
         self.board = Board()
@@ -46,13 +45,13 @@ class CollectPipeline:
         elif CONFIG['use_frame'] == 'pytorch':
             model_path = CONFIG['pytorch_model_path']
         else:
-            print('暂不支持所选框架')
+            print('Unsupported framework')
         try:
             self.policy_value_net = PolicyValueNet(model_file=model_path)
-            print('已加载最新模型')
+            print('loaded the lastest model.')
         except:
             self.policy_value_net = PolicyValueNet()
-            print('已加载初始模型')
+            print('Loaded initial model.')
         self.mcts_player = MCTSPlayer(self.policy_value_net.policy_value_fn,
                                       c_puct=self.c_puct,
                                       n_playout=self.n_playout,
@@ -90,15 +89,14 @@ class CollectPipeline:
             if CONFIG['use_redis']:
                 while True:
                     try:
-
                         for d in play_data:
                             self.redis_cli.rpush('train_data_buffer', pickle.dumps(d))
                         self.redis_cli.incr('iters')
                         self.iters = self.redis_cli.get('iters')
-                        print("存储完成")
+                        print("save completed")
                         break
                     except:
-                        print("存储失败")
+                        print("save failed")
                         time.sleep(1)
             else:
                 if os.path.exists(CONFIG['train_data_buffer_path']):
@@ -112,7 +110,7 @@ class CollectPipeline:
                                 del data_file
                                 self.iters += 1
                                 self.data_buffer.extend(play_data)
-                            print('成功载入数据')
+                            print('successfully load data')
                             break
                         except:
                             time.sleep(30)
@@ -135,15 +133,20 @@ class CollectPipeline:
             print('\n\rquit')
 
 
-collecting_pipeline = CollectPipeline(init_model='current_policy.model')
-collecting_pipeline.run()
-
-if CONFIG['use_frame'] == 'paddle':
+def main():
     collecting_pipeline = CollectPipeline(init_model='current_policy.model')
     collecting_pipeline.run()
-elif CONFIG['use_frame'] == 'pytorch':
-    collecting_pipeline = CollectPipeline(init_model='current_policy.pkl')
-    collecting_pipeline.run()
-else:
-    print('暂不支持您选择的框架')
-    print('训练结束')
+
+    if CONFIG['use_frame'] == 'paddle':
+        collecting_pipeline = CollectPipeline(init_model='current_policy.model')
+        collecting_pipeline.run()
+    elif CONFIG['use_frame'] == 'pytorch':
+        collecting_pipeline = CollectPipeline(init_model='current_policy.pkl')
+        collecting_pipeline.run()
+    else:
+        print('Unsupported framework')
+        print('Training ends.')
+
+
+if __name__ == '__main__':
+    main()

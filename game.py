@@ -5,7 +5,7 @@ import copy
 import time
 from config import CONFIG
 from collections import deque   # 这个队列用来判断长将或长捉
-import random
+# import random
 
 
 # 列表来表示棋盘，红方在上，黑方在下。使用时需要使用深拷贝
@@ -181,7 +181,7 @@ def get_legal_moves(state_deque, current_player_color):
     车
     ====
     这个时候，车就不能再往右走抓帅
-    接下来不能走的动作是(1011)，因为将会盘面与state_deque[-4]重复
+    接下来不能走的动作是(1011), 因为将会盘面与state_deque[-4]重复
     """
 
     state_list = state_deque[-1]
@@ -811,7 +811,7 @@ class Game(object):
                 move, move_probs = player.get_action(self.board,
                                                      temp=temp,
                                                      return_prob=1)
-                print('走一步要花: ', time.time() - start_time)
+                print(f'One step time: {time.time() - start_time}')
             else:
                 move, move_probs = player.get_action(self.board,
                                                      temp=temp,
@@ -892,7 +892,3 @@ if __name__ == '__main__':
     #     game.start_play(human1, human2, start_player=2, is_shown=0)
     board = Board()
     board.init_board()
-
-
-
-

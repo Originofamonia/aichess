@@ -2,13 +2,17 @@ import pickle
 from config import CONFIG
 import redis
 
+
 def get_redis_cli():
     r = redis.StrictRedis(host=CONFIG['redis_host'], port=CONFIG['redis_port'], db=CONFIG['redis_db'])
     return r
+
+
 def get_list_range(redis_cli,name,l,r=-1):
     assert isinstance(redis_cli,redis.Redis)
     list = redis_cli.lrange(name,l,r)
     return [pickle.loads(d) for d in list]
+
 
 if __name__ == '__main__':
     r = get_redis_cli()

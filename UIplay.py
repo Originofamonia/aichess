@@ -7,14 +7,12 @@ from mcts import MCTSPlayer
 import time
 from config import CONFIG
 
-
-
 if CONFIG['use_frame'] == 'paddle':
     from paddle_net import PolicyValueNet
 elif CONFIG['use_frame'] == 'pytorch':
     from pytorch_net import PolicyValueNet
 else:
-    print('暂不支持您选择的框架')
+    print('Unsupported framework')
 
 
 class Human:
@@ -42,7 +40,7 @@ if CONFIG['use_frame'] == 'paddle':
 elif CONFIG['use_frame'] == 'pytorch':
     policy_value_net = PolicyValueNet(model_file='current_policy.pkl')
 else:
-    print('暂不支持您选择的框架')
+    print('Unsupported framework')
 
 # 初始化pygame
 pygame.init()
@@ -60,7 +58,7 @@ fullscreen = False
 # 创建指定大小的窗口
 screen = pygame.display.set_mode(size)
 # 设置窗口标题
-pygame.display.set_caption("中国象棋")
+pygame.display.set_caption("Chinese chess")
 
 # 加载一个列表进行图像的绘制
 # 列表表示的棋盘初始化，红子在上，黑子在下，禁止对该列表进行编辑，使用时必须使用深拷贝

@@ -1,9 +1,9 @@
 import numpy as np
-import copy
-import time
-from config import CONFIG
-from collections import deque   # 这个队列用来判断长将或长捉
-import random
+# import copy
+# import time
+# from config import CONFIG
+# from collections import deque   # 这个队列用来判断长将或长捉
+# import random
 
 num2array = dict({1 : np.array([1, 0, 0, 0, 0, 0, 0]), 2: np.array([0, 1, 0, 0, 0, 0, 0]),
                   3: np.array([0, 0, 1, 0, 0, 0, 0]), 4: np.array([0, 0, 0, 1, 0, 0, 0]),
@@ -43,7 +43,7 @@ def recovery_state_mcts_prob(tuple):
 
 def zip_array(array, data=0.):  # 压缩成稀疏数组
     zip_res = []
-    zip_res.append([len(array), len(array[0])])
+    zip_res.append([len(array), len(array[0]), 1])
     for i in range(len(array)):
         for j in range(len(array[0])):
             if array[i][j] != data:
