@@ -11,7 +11,6 @@ from torch.cuda.amp import autocast
 
 # 搭建残差块
 class ResBlock(nn.Module):
-
     def __init__(self, num_filters=256):
         super().__init__()
         self.conv1 = nn.Conv2d(in_channels=num_filters, out_channels=num_filters, kernel_size=(3, 3), stride=(1, 1), padding=1)
@@ -33,7 +32,6 @@ class ResBlock(nn.Module):
 
 # 搭建骨干网络，输入：N, 9, 10, 9 --> N, C, H, W
 class Net(nn.Module):
-
     def __init__(self, num_channels=256, num_res_blocks=7):
         super().__init__()
         # 全局特征

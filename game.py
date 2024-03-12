@@ -811,7 +811,7 @@ class Game(object):
                 move, move_probs = player.get_action(self.board,
                                                      temp=temp,
                                                      return_prob=1)
-                print(f'One step time: {time.time() - start_time}')
+                print(f'One step time: {time.time() - start_time:.3f}')
             else:
                 move, move_probs = player.get_action(self.board,
                                                      temp=temp,

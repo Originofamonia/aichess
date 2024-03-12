@@ -82,7 +82,7 @@ class TrainPipeline:
         return win_ratio
 
 
-    def policy_updata(self):
+    def policy_update(self):
         """更新策略价值网络"""
         mini_batch = random.sample(self.data_buffer, self.batch_size)
         # print(mini_batch[0][1],mini_batch[1][1])
@@ -128,12 +128,12 @@ class TrainPipeline:
                              np.var(np.array(winner_batch) - new_v.flatten()) /
                              np.var(np.array(winner_batch)))
 
-        print(("kl:{:.5f},"
+        print(("kl:{:.4f},"
                "lr_multiplier:{:.3f},"
-               "loss:{},"
-               "entropy:{},"
-               "explained_var_old:{:.9f},"
-               "explained_var_new:{:.9f}"
+               "loss:{:.4f},"
+               "entropy:{:.4f},"
+               "explained_var_old:{:.3f},"
+               "explained_var_new:{:.3f}"
                ).format(kl,
                         self.lr_multiplier,
                         loss,
@@ -173,7 +173,7 @@ class TrainPipeline:
 
                 print('step i {}: '.format(self.iters))
                 if len(self.data_buffer) > self.batch_size:
-                    loss, entropy = self.policy_updata()
+                    loss, entropy = self.policy_update()
                     # 保存模型
                     if CONFIG['use_frame'] == 'paddle':
                         self.policy_value_net.save_model(CONFIG['paddle_model_path'])
