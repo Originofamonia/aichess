@@ -10,6 +10,7 @@ elif CONFIG['use_frame'] == 'pytorch':
 else:
     print('Unsupported framework')
 
+
 # 测试Board中的start_play
 class Human1:
     def get_action(self, board):

@@ -25,7 +25,6 @@ else:
 
 # 定义整个训练流程
 class TrainPipeline:
-
     def __init__(self, init_model=None):
         # 训练参数
         self.board = Board()

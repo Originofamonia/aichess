@@ -5,6 +5,7 @@ import numpy as np
 # from collections import deque   # 这个队列用来判断长将或长捉
 # import random
 
+
 num2array = dict({1 : np.array([1, 0, 0, 0, 0, 0, 0]), 2: np.array([0, 1, 0, 0, 0, 0, 0]),
                   3: np.array([0, 0, 1, 0, 0, 0, 0]), 4: np.array([0, 0, 0, 1, 0, 0, 0]),
                   5: np.array([0, 0, 0, 0, 1, 0, 0]), 6: np.array([0, 0, 0, 0, 0, 1, 0]),
@@ -13,8 +14,11 @@ num2array = dict({1 : np.array([1, 0, 0, 0, 0, 0, 0]), 2: np.array([0, 1, 0, 0, 
                   11: np.array([0, 0, 0, -1, 0, 0, 0]), 12: np.array([0, 0, 0, 0, -1, 0, 0]),
                   13: np.array([0, 0, 0, 0, 0, -1, 0]), 14: np.array([0, 0, 0, 0, 0, 0, -1]),
                   15: np.array([0, 0, 0, 0, 0, 0, 0])})
+
+
 def array2num(array):
     return list(filter(lambda string: (num2array[string] == array).all(), num2array))[0]
+
 
 # 压缩存储
 def state_list2state_num_array(state_list):
@@ -23,6 +27,7 @@ def state_list2state_num_array(state_list):
         for j in range(9):
             _state_array[i][j] = num2array[state_list[i][j]]
     return _state_array
+
 
 #(state, mcts_prob, winner) ((9,10,9),2086,1) => ((9,90),(2,1043),1)
 def zip_state_mcts_prob(tuple):
@@ -33,6 +38,7 @@ def zip_state_mcts_prob(tuple):
     mcts_prob = zip_array(mcts_prob)
     return state,mcts_prob,winner
 
+
 def recovery_state_mcts_prob(tuple):
     state, mcts_prob, winner = tuple
     state = recovery_array(state)
@@ -40,6 +46,7 @@ def recovery_state_mcts_prob(tuple):
     state = state.reshape((9,10,9))
     mcts_prob = mcts_prob.reshape(2086)
     return state,mcts_prob,winner
+
 
 def zip_array(array, data=0.):  # 压缩成稀疏数组
     zip_res = []

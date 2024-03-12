@@ -50,3 +50,9 @@ aistudio上一键可运行项目：https://aistudio.baidu.com/aistudio/projectde
 5、书籍：强化学习第二版
 
 后续应该会对该AI继续训练下去，亲手造一个超强的下棋AI简直太酷了！
+
+## Required libraries
+```
+torch
+pygame
+'''

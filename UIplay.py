@@ -16,7 +16,6 @@ else:
 
 
 class Human:
-
     def __init__(self):
         self.agent = 'HUMAN'
 
@@ -223,7 +222,6 @@ draw_fire = False
 move_action = ''
 first_button = False
 while True:
-
     # 填充背景
     screen.blit(bg_image, (0, 0))
     for image, image_rect in board2image(board=board.state_deque[-1]):
