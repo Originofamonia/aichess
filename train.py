@@ -4,6 +4,7 @@ from collections import defaultdict, deque
 import numpy as np
 import pickle
 import time
+import wandb
 
 import zip_array
 from config import CONFIG
@@ -140,6 +141,9 @@ class TrainPipeline:
                         entropy,
                         explained_var_old,
                         explained_var_new))
+        wandb.log({"kl": kl, "lr_multiplier": self.lr_multiplier, 'loss':loss,
+            'entropy': entropy, 'explained_var_old': explained_var_old,
+            'explained_var_new': explained_var_new})
         return loss, entropy
 
     def run(self):
@@ -172,6 +176,7 @@ class TrainPipeline:
                             time.sleep(5)
 
                 print('step i {}: '.format(self.iters))
+                wandb.log({"step": self.iters})
                 if len(self.data_buffer) > self.batch_size:
                     loss, entropy = self.policy_update()
                     # 保存模型
@@ -203,12 +208,23 @@ class TrainPipeline:
             print('\n\rquit')
 
 
-if CONFIG['use_frame'] == 'paddle':
-    training_pipeline = TrainPipeline(init_model='current_policy.model')
-    training_pipeline.run()
-elif CONFIG['use_frame'] == 'pytorch':
-    training_pipeline = TrainPipeline(init_model='current_policy.pkl')
-    training_pipeline.run()
-else:
-    print('Unsupported framework')
-    print('Training ends')
+def main():
+    wandb.init(
+        # set the wandb project where this run will be logged
+        project="chess_ai",
+        # track hyperparameters and run metadata
+        config=CONFIG
+    )
+    if CONFIG['use_frame'] == 'paddle':
+        training_pipeline = TrainPipeline(init_model='current_policy.model')
+        training_pipeline.run()
+    elif CONFIG['use_frame'] == 'pytorch':
+        training_pipeline = TrainPipeline(init_model='current_policy.pkl')
+        training_pipeline.run()
+    else:
+        print('Unsupported framework')
+        print('Training ends')
+
+
+if __name__ == '__main__':
+    main()
